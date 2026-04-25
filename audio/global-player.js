@@ -20,57 +20,55 @@
   document.body.appendChild(audio);
 
   var playing = false;
+  var started = false;
+
   var btn = document.getElementById("playBtn");
 
-  btn.onclick = function () {
-    startMusic();
-  };
-
   function startMusic() {
+    if (started) return;
+    started = true;
+
     try {
       audio.currentTime = 0;
       audio.play();
       playing = true;
       btn.innerHTML = "Pause";
     } catch (e) {}
-    removeListeners();
+
+    detach();
   }
 
-  function removeListeners() {
-    var events = [
-      "click",
-      "touchstart",
-      "touchend",
-      "keydown",
-      "mousedown",
-      "mousemove",
-      "wheel",
-      "scroll"
-    ];
+  function detach() {
+    var events = ["click", "touchstart", "keydown", "scroll"];
 
     for (var i = 0; i < events.length; i++) {
       if (document.removeEventListener) {
         document.removeEventListener(events[i], startMusic, true);
+        document.removeEventListener(events[i], startMusic, false);
       }
     }
   }
 
-  // attach to EVERYTHING possible
-  var events = [
-    "click",
-    "touchstart",
-    "touchend",
-    "keydown",
-    "mousedown",
-    "mousemove",
-    "wheel",
-    "scroll"
-  ];
+  var events = ["click", "touchstart", "keydown", "scroll"];
 
   for (var i = 0; i < events.length; i++) {
     if (document.addEventListener) {
-      document.addEventListener(events[i], startMusic, true);
+      document.addEventListener(events[i], startMusic, false);
     }
   }
+
+  btn.onclick = function () {
+    try {
+      if (!playing) {
+        audio.currentTime = 0;
+        audio.play();
+        btn.innerHTML = "Pause";
+      } else {
+        audio.pause();
+        btn.innerHTML = "Play";
+      }
+      playing = !playing;
+    } catch (e) {}
+  };
 
 })();
