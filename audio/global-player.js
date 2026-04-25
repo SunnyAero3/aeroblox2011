@@ -2,9 +2,6 @@
 
   if (document.getElementById("musicPlayer")) return;
 
-  // =========================
-  // AUDIO
-  // =========================
   var audio = document.createElement("audio");
   audio.src = "audio/bloxburg-menu.mp3";
   audio.loop = true;
@@ -22,32 +19,21 @@
       audio.play();
     } catch (e) {}
 
-    removeListeners();
-  }
-
-  function removeListeners() {
-    var events = ["click", "touchstart", "keydown", "scroll", "wheel"];
-
-    for (var i = 0; i < events.length; i++) {
-      if (document.removeEventListener) {
-        document.removeEventListener(events[i], startMusic, true);
-      } else if (document.detachEvent) {
-        document.detachEvent("on" + events[i], startMusic);
-      }
+    // remove handler after first use
+    if (document.body.detachEvent) {
+      document.body.detachEvent("onclick", startMusic);
+    } else {
+      document.body.removeEventListener("click", startMusic);
     }
   }
 
   // =========================
-  // LISTEN ON ENTIRE DOCUMENT (BUT DOES NOT BLOCK CLICKING)
+  // IMPORTANT FIX: bind to BODY only (IE-safe)
   // =========================
-  var events = ["click", "touchstart", "keydown"];
-
-  for (var i = 0; i < events.length; i++) {
-    if (document.addEventListener) {
-      document.addEventListener(events[i], startMusic, true);
-    } else if (document.attachEvent) {
-      document.attachEvent("on" + events[i], startMusic);
-    }
+  if (document.body.attachEvent) {
+    document.body.attachEvent("onclick", startMusic);
+  } else {
+    document.body.addEventListener("click", startMusic);
   }
 
 })();
