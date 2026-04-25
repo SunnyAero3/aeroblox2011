@@ -1,135 +1,118 @@
-(() => {
-  // prevent double injection
-  if (document.getElementById("musicPlayer")) return;
+(function () {
 
   // =========================
-  // CREATE UI
+  // DETECT IE
   // =========================
-  const player = document.createElement("div");
-  player.id = "musicPlayer";
+  var isIE = !!document.documentMode || !!window.ActiveXObject;
 
-  player.innerHTML = `
-    <button id="playBtn">Play</button>
-    🎵 Music
-  `;
-
-  document.body.appendChild(player);
-
-  // =========================
-  // STYLE INJECTION
-  // =========================
-  const style = document.createElement("style");
-  style.textContent = `
-    #musicPlayer {
-      position: fixed;
-      top: 10px;
-      left: 10px;
-      z-index: 999999;
-
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(8px);
-
-      padding: 8px 12px;
-      border-radius: 10px;
-
-      color: white;
-      font-family: Arial, sans-serif;
-      font-size: 14px;
-
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    #playBtn {
-      cursor: pointer;
-      background: #4CAF50;
-      border: none;
-      padding: 5px 10px;
-      border-radius: 6px;
-      color: white;
-      transition: 0.2s;
-    }
-
-    #playBtn:hover {
-      transform: scale(1.05);
-    }
-
-    #playBtn:active {
-      transform: scale(0.95);
-    }
-  `;
-  document.head.appendChild(style);
-
-  // =========================
-  // AUDIO SETUP
-  // =========================
-  const audio = document.createElement("audio");
-  audio.src = "audio/bloxburg-menu.mp3";
-  audio.loop = true;
-  audio.volume = 0.5;
-  audio.preload = "auto";
-
-  document.body.appendChild(audio);
-
-  let playing = false;
-  const btn = player.querySelector("#playBtn");
-
-  // =========================
-  // PLAY / PAUSE BUTTON
-  // =========================
-  btn.onclick = async () => {
-    try {
-      if (!playing) {
-        audio.currentTime = 0;
-        await audio.play();
-        btn.textContent = "Pause";
-      } else {
-        audio.pause();
-        btn.textContent = "Play";
-      }
-      playing = !playing;
-    } catch (e) {
-      console.log("Play blocked:", e);
-    }
-  };
-
-  // =========================
-  // “FAKE AUTOPLAY” (works everywhere)
-  // starts on FIRST user interaction anywhere
-  // =========================
-  function startMusicOnce() {
-    audio.currentTime = 0;
-    audio.play().catch(() => {});
-    playing = true;
-    btn.textContent = "Pause";
-
-    window.removeEventListener("click", startMusicOnce);
-    window.removeEventListener("touchstart", startMusicOnce);
+  if (isIE) {
+    loadIEPlayer();
+  } else {
+    loadModernPlayer();
   }
 
-  window.addEventListener("click", startMusicOnce);
-  window.addEventListener("touchstart", startMusicOnce);
+  // =========================
+  // MODERN VERSION
+  // =========================
+  function loadModernPlayer() {
+
+    if (document.getElementById("musicPlayer")) return;
+
+    var player = document.createElement("div");
+    player.id = "musicPlayer";
+    player.innerHTML = '<button id="playBtn">Play</button> 🎵 Music';
+    document.body.appendChild(player);
+
+    var style = document.createElement("style");
+    style.textContent =
+      "#musicPlayer{position:fixed;top:10px;left:10px;z-index:999999;background:rgba(0,0,0,0.6);padding:8px 12px;border-radius:10px;color:white;font-family:Arial;display:flex;align-items:center;gap:10px;}#playBtn{cursor:pointer;background:#4CAF50;border:none;padding:5px 10px;border-radius:6px;color:white;}";
+    document.head.appendChild(style);
+
+    var audio = document.createElement("audio");
+    audio.src = "audio/bloxburg-menu.mp3";
+    audio.loop = true;
+    audio.volume = 0.5;
+    document.body.appendChild(audio);
+
+    var playing = false;
+    var btn = document.getElementById("playBtn");
+
+    btn.onclick = function () {
+      if (!playing) {
+        audio.currentTime = 0;
+        audio.play();
+        btn.innerHTML = "Pause";
+      } else {
+        audio.pause();
+        btn.innerHTML = "Play";
+      }
+      playing = !playing;
+    };
+
+    window.addEventListener("click", function startOnce() {
+      audio.currentTime = 0;
+      audio.play().catch(function(){});
+      playing = true;
+      btn.innerHTML = "Pause";
+      window.removeEventListener("click", startOnce);
+    });
+  }
 
   // =========================
-  // RESTORE STATE (page navigation)
+  // IE VERSION (simplified, no modern syntax)
   // =========================
-  window.addEventListener("load", () => {
-    const time = localStorage.getItem("musicTime");
-    const wasPlaying = localStorage.getItem("musicPlaying");
+  function loadIEPlayer() {
 
-    if (time) audio.currentTime = parseFloat(time);
+    if (document.getElementById("musicPlayer")) return;
 
-    if (wasPlaying === "true") {
-      audio.play().then(() => {
+    var player = document.createElement("div");
+    player.id = "musicPlayer";
+    player.innerHTML = '<button id="playBtn">Play</button> MUSIC';
+    document.body.appendChild(player);
+
+    var style = document.createElement("style");
+    style.type = "text/css";
+    style.cssText =
+      "#musicPlayer{position:fixed;top:10px;left:10px;z-index:999999;background:#000000;padding:8px 12px;color:#fff;font-family:Arial;display:block;}#playBtn{margin-right:10px;}";
+
+    document.getElementsByTagName("head")[0].appendChild(style);
+
+    var audio = document.createElement("audio");
+    audio.src = "audio/bloxburg-menu.mp3";
+    audio.loop = true;
+    audio.volume = 0.5;
+    document.body.appendChild(audio);
+
+    var playing = false;
+    var btn = document.getElementById("playBtn");
+
+    btn.onclick = function () {
+      try {
+        if (!playing) {
+          audio.currentTime = 0;
+          audio.play();
+          btn.innerHTML = "Pause";
+        } else {
+          audio.pause();
+          btn.innerHTML = "Play";
+        }
+        playing = !playing;
+      } catch (e) {}
+    };
+
+    // IE click-to-start fallback
+    document.attachEvent
+      ? document.attachEvent("onclick", start)
+      : document.addEventListener("click", start);
+
+    function start() {
+      try {
+        audio.currentTime = 0;
+        audio.play();
         playing = true;
-        btn.textContent = "Pause";
-      }).catch(() => {});
+        btn.innerHTML = "Pause";
+      } catch (e) {}
     }
-  });
+  }
 
-  window.addEventListener("beforeunload", () => {
-    localStorage.setItem("musicTime", audio.currentTime);
-    localStorage.setItem("musicPlaying", playing);
-  });
 })();
