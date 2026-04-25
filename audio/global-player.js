@@ -2,17 +2,9 @@
 
   if (document.getElementById("musicPlayer")) return;
 
-  var player = document.createElement("div");
-  player.id = "musicPlayer";
-  player.innerHTML = "<button id='playBtn'>Play</button> 🎵 Music";
-  document.body.appendChild(player);
-
-  var style = document.createElement("style");
-  style.type = "text/css";
-  style.cssText =
-    "#musicPlayer{position:fixed;top:10px;left:10px;z-index:999999;background:rgba(0,0,0,0.6);padding:8px 12px;color:#fff;font-family:Arial;display:flex;align-items:center;gap:10px;}#playBtn{cursor:pointer;background:#4CAF50;border:none;padding:5px 10px;border-radius:6px;color:#fff;}";
-  document.getElementsByTagName("head")[0].appendChild(style);
-
+  // =========================
+  // AUDIO
+  // =========================
   var audio = document.createElement("audio");
   audio.src = "audio/bloxburg-menu.mp3";
   audio.loop = true;
@@ -20,8 +12,6 @@
   document.body.appendChild(audio);
 
   var started = false;
-  var playing = false;
-  var btn = document.getElementById("playBtn");
 
   function startMusic() {
     if (started) return;
@@ -30,46 +20,34 @@
     try {
       audio.currentTime = 0;
       audio.play();
-      playing = true;
-      btn.innerHTML = "Pause";
     } catch (e) {}
 
     removeListeners();
   }
 
   function removeListeners() {
-    var events = ["click", "touchstart", "keydown"];
+    var events = ["click", "touchstart", "keydown", "scroll", "wheel"];
 
     for (var i = 0; i < events.length; i++) {
       if (document.removeEventListener) {
-        document.removeEventListener(events[i], startMusic);
+        document.removeEventListener(events[i], startMusic, true);
+      } else if (document.detachEvent) {
+        document.detachEvent("on" + events[i], startMusic);
       }
     }
   }
 
-  // attach only REAL trusted gestures
+  // =========================
+  // LISTEN ON ENTIRE DOCUMENT (BUT DOES NOT BLOCK CLICKING)
+  // =========================
   var events = ["click", "touchstart", "keydown"];
 
   for (var i = 0; i < events.length; i++) {
     if (document.addEventListener) {
-      document.addEventListener(events[i], startMusic);
+      document.addEventListener(events[i], startMusic, true);
     } else if (document.attachEvent) {
       document.attachEvent("on" + events[i], startMusic);
     }
   }
-
-  btn.onclick = function () {
-    try {
-      if (!playing) {
-        audio.currentTime = 0;
-        audio.play();
-        btn.innerHTML = "Pause";
-      } else {
-        audio.pause();
-        btn.innerHTML = "Play";
-      }
-      playing = !playing;
-    } catch (e) {}
-  };
 
 })();
