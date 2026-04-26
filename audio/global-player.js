@@ -2,11 +2,9 @@
 
   function init() {
 
-    var audio = document.createElement("audio");
-    audio.src = "audio/bloxburg-menu.mp3";
+    var audio = new Audio("audio/bloxburg-menu.mp3");
     audio.loop = true;
     audio.volume = 0.5;
-    document.body.appendChild(audio);
 
     var started = false;
 
@@ -14,18 +12,31 @@
       if (started) return;
       started = true;
 
-      audio.play().catch(function () {});
+      console.log("Trying to play audio...");
+
+      var playPromise = audio.play();
+
+      if (playPromise !== undefined) {
+        playPromise
+          .then(function () {
+            console.log("Audio playing successfully");
+          })
+          .catch(function (err) {
+            console.log("Audio blocked or failed:", err);
+            alert("Audio failed to play. Check file path or browser block.");
+          });
+      }
 
       document.removeEventListener("click", startMusic);
       document.removeEventListener("touchstart", startMusic);
       document.removeEventListener("keydown", startMusic);
     }
 
-    // whole page acts as trigger zone (no blocking layer)
-    document.addEventListener("click", startMusic, false);
-    document.addEventListener("touchstart", startMusic, false);
-    document.addEventListener("keydown", startMusic, false);
+    document.addEventListener("click", startMusic);
+    document.addEventListener("touchstart", startMusic);
+    document.addEventListener("keydown", startMusic);
 
+    console.log("Music system initialized");
   }
 
   if (document.readyState === "loading") {
