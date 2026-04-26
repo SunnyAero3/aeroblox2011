@@ -1,11 +1,15 @@
 (function () {
 
-  function init() {
+  function initMusicSystem() {
 
+    // =========================
+    // AUDIO SETUP
+    // =========================
     var audio = document.createElement("audio");
     audio.src = "audio/bloxburg-menu.mp3";
     audio.loop = true;
     audio.volume = 0.5;
+
     document.body.appendChild(audio);
 
     var started = false;
@@ -19,26 +23,34 @@
         audio.play();
       } catch (e) {}
 
-      // remove listener after first trigger
+      // remove listeners after first trigger
+      removeListeners();
+    }
+
+    function removeListeners() {
       document.removeEventListener("click", startMusic);
       document.removeEventListener("touchstart", startMusic);
       document.removeEventListener("keydown", startMusic);
       document.removeEventListener("mousedown", startMusic);
     }
 
-    // attach ONLY safe interactions
-    document.addEventListener("click", startMusic, false);
-    document.addEventListener("touchstart", startMusic, false);
-    document.addEventListener("keydown", startMusic, false);
-    document.addEventListener("mousedown", startMusic, false);
+    function addListeners() {
+      document.addEventListener("click", startMusic, false);
+      document.addEventListener("touchstart", startMusic, false);
+      document.addEventListener("keydown", startMusic, false);
+      document.addEventListener("mousedown", startMusic, false);
+    }
 
+    addListeners();
   }
 
-  // ensure DOM is ready (prevents “completely broke” issue)
+  // =========================
+  // SAFE START (IMPORTANT)
+  // =========================
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
+    document.addEventListener("DOMContentLoaded", initMusicSystem);
   } else {
-    init();
+    initMusicSystem();
   }
 
 })();
