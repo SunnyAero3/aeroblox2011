@@ -2,9 +2,11 @@
 
   function init() {
 
-    var audio = new Audio("audio/bloxburg-menu.mp3");
+    var audio = new Audio();
+    audio.src = "audio/bloxburg-menu.mp3";
     audio.loop = true;
     audio.volume = 0.5;
+    audio.preload = "auto";
 
     var started = false;
 
@@ -12,31 +14,27 @@
       if (started) return;
       started = true;
 
-      console.log("Trying to play audio...");
+      console.log("Click detected → trying audio");
 
       var playPromise = audio.play();
 
       if (playPromise !== undefined) {
         playPromise
           .then(function () {
-            console.log("Audio playing successfully");
+            console.log("Audio playing (Chrome OK)");
           })
           .catch(function (err) {
-            console.log("Audio blocked or failed:", err);
-            alert("Audio failed to play. Check file path or browser block.");
+            console.log("Chrome blocked audio:", err);
           });
       }
 
       document.removeEventListener("click", startMusic);
       document.removeEventListener("touchstart", startMusic);
-      document.removeEventListener("keydown", startMusic);
     }
 
-    document.addEventListener("click", startMusic);
-    document.addEventListener("touchstart", startMusic);
-    document.addEventListener("keydown", startMusic);
+    document.addEventListener("click", startMusic, { once: true });
+    document.addEventListener("touchstart", startMusic, { once: true });
 
-    console.log("Music system initialized");
   }
 
   if (document.readyState === "loading") {
