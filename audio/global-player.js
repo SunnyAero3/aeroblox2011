@@ -1,4 +1,5 @@
 (function () {
+
   function ready(fn) {
     if (document.readyState === "loading") {
       document.addEventListener("DOMContentLoaded", fn);
@@ -7,60 +8,15 @@
     }
   }
 
-  function initMusicPlayer() {
+  ready(function () {
+
     if (document.getElementById("musicPlayer")) return;
 
-    var storageKeyTime = "musicTime";
-    var storageKeyPlaying = "musicPlaying";
+    var storageTime = "musicTime";
+    var storagePlaying = "musicPlaying";
 
-    var isIE = !!document.documentMode;
-
-    var player = document.createElement("div");
-    player.id = "musicPlayer";
-    player.innerHTML = [
-      '<button id="playBtn" type="button">Play</button>',
-      '<span id="musicLabel">Music</span>'
-    ].join("");
-
-    var style = document.createElement("style");
-    style.type = "text/css";
-    style.textContent = [
-      "#musicPlayer{",
-      "position:fixed;",
-      "top:10px;",
-      "left:10px;",
-      "z-index:999999;",
-      "display:flex;",
-      "align-items:center;",
-      "gap:10px;",
-      "padding:8px 12px;",
-      "border-radius:12px;",
-      "background:rgba(0,0,0,0.65);",
-      "color:#fff;",
-      "font-family:Arial, sans-serif;",
-      "font-size:14px;",
-      "box-shadow:0 4px 16px rgba(0,0,0,0.35);",
-      "}",
-      "#playBtn{",
-      "cursor:pointer;",
-      "border:0;",
-      "padding:6px 12px;",
-      "border-radius:8px;",
-      "background:#4CAF50;",
-      "color:#fff;",
-      "font-family:inherit;",
-      "font-size:13px;",
-      "}",
-      "#playBtn:hover{background:#45a049;}",
-      "#playBtn:active{transform:scale(0.98);}",
-      "#musicLabel{",
-      "user-select:none;",
-      "white-space:nowrap;",
-      "}"
-    ].join("");
-
-    document.head.appendChild(style);
-    document.body.appendChild(player);
+    var startedByInteraction = false;
+    var playing = false;
 
     var audio = document.createElement("audio");
     audio.src = "audio/bloxburg-menu.mp3";
@@ -69,13 +25,36 @@
     audio.preload = "auto";
     document.body.appendChild(audio);
 
+    // =========================
+    // UI
+    // =========================
+    var player = document.createElement("div");
+    player.id = "musicPlayer";
+
+    player.innerHTML =
+      '<button id="playBtn">Play</button>' +
+      '<span id="label">Music</span>';
+
+    document.body.appendChild(player);
+
+    var style = document.createElement("style");
+    style.textContent =
+      "#musicPlayer{" +
+      "position:fixed;top:10px;left:10px;z-index:999999;" +
+      "display:flex;gap:10px;align-items:center;" +
+      "padding:8px 12px;border-radius:12px;" +
+      "background:rgba(0,0,0,0.65);color:#fff;" +
+      "font-family:Arial;font-size:14px;}" +
+      "#playBtn{cursor:pointer;border:0;padding:6px 12px;" +
+      "border-radius:8px;background:#4CAF50;color:#fff;}" +
+      "#playBtn:hover{background:#45a049;}";
+
+    document.head.appendChild(style);
+
     var btn = document.getElementById("playBtn");
-    var label = document.getElementById("musicLabel");
+    var label = document.getElementById("label");
 
-    var startedByInteraction = false;
-    var playing = false;
-
-    function setButtonState() {
+    function updateUI() {
       if (playing) {
         btn.innerHTML = "Pause";
         label.innerHTML = "Music On";
@@ -87,15 +66,11 @@
 
     function safePlay(fromStart) {
       try {
-        if (fromStart) {
-          audio.currentTime = 0;
-        }
-        var result = audio.play();
-        if (result && typeof result.catch === "function") {
-          result.catch(function () {});
-        }
+        if (fromStart) audio.currentTime = 0;
+        var p = audio.play();
+        if (p && p.catch) p.catch(function () {});
         playing = true;
-        setButtonState();
+        updateUI();
       } catch (e) {}
     }
 
@@ -104,103 +79,72 @@
         audio.pause();
       } catch (e) {}
       playing = false;
-      setButtonState();
+      updateUI();
     }
 
-    function toggleMusic() {
-      if (playing) {
-        safePause();
-      } else {
-        safePlay(true);
-      }
-    }
-
-    function startOnce() {
+    // =========================
+    // CLICK ANYWHERE START
+    // =========================
+    function startMusicOnce() {
       if (startedByInteraction) return;
       startedByInteraction = true;
+
       safePlay(true);
-      detachStartListeners();
+      removeStartListeners();
     }
 
-    function detachStartListeners() {
-      if (document.removeEventListener) {
-        document.removeEventListener("click", startOnce, false);
-        document.removeEventListener("touchstart", startOnce, false);
-        document.removeEventListener("keydown", startOnce, false);
-        document.removeEventListener("mousedown", startOnce, false);
-      } else if (document.detachEvent) {
-        document.detachEvent("onclick", startOnce);
-        document.detachEvent("ontouchstart", startOnce);
-        document.detachEvent("onkeydown", startOnce);
-        document.detachEvent("onmousedown", startOnce);
-      }
+    function removeStartListeners() {
+      document.removeEventListener("click", startMusicOnce);
+      document.removeEventListener("touchstart", startMusicOnce);
+      document.removeEventListener("keydown", startMusicOnce);
     }
 
-    function addStartListeners() {
-      if (document.addEventListener) {
-        document.addEventListener("click", startOnce, false);
-        document.addEventListener("touchstart", startOnce, false);
-        document.addEventListener("keydown", startOnce, false);
-        document.addEventListener("mousedown", startOnce, false);
-      } else if (document.attachEvent) {
-        document.attachEvent("onclick", startOnce);
-        document.attachEvent("ontouchstart", startOnce);
-        document.attachEvent("onkeydown", startOnce);
-        document.attachEvent("onmousedown", startOnce);
-      }
-    }
+    document.addEventListener("click", startMusicOnce, false);
+    document.addEventListener("touchstart", startMusicOnce, false);
+    document.addEventListener("keydown", startMusicOnce, false);
 
-    function loadSavedState() {
-      try {
-        var savedTime = localStorage.getItem(storageKeyTime);
-        var savedPlaying = localStorage.getItem(storageKeyPlaying);
-
-        if (savedTime !== null && savedTime !== "") {
-          audio.currentTime = parseFloat(savedTime) || 0;
-        }
-
-        if (savedPlaying === "true") {
-          playing = true;
-          setButtonState();
-          safePlay(false);
-        } else {
-          playing = false;
-          setButtonState();
-        }
-      } catch (e) {
-        setButtonState();
-      }
-    }
-
-    function saveState() {
-      try {
-        localStorage.setItem(storageKeyTime, String(audio.currentTime || 0));
-        localStorage.setItem(storageKeyPlaying, String(playing));
-      } catch (e) {}
-    }
-
+    // =========================
+    // BUTTON CONTROL
+    // =========================
     btn.onclick = function () {
-      toggleMusic();
+      if (playing) safePause();
+      else safePlay(true);
     };
 
+    // =========================
+    // SAVE STATE
+    // =========================
     window.onbeforeunload = function () {
-      saveState();
+      try {
+        localStorage.setItem(storageTime, audio.currentTime);
+        localStorage.setItem(storagePlaying, playing);
+      } catch (e) {}
     };
 
-    audio.onended = function () {
-      playing = false;
-      setButtonState();
-    };
+    function loadState() {
+      try {
+        var t = localStorage.getItem(storageTime);
+        var p = localStorage.getItem(storagePlaying);
+
+        if (t) audio.currentTime = parseFloat(t);
+
+        if (p === "true") {
+          playing = true;
+          safePlay(false);
+        }
+
+        updateUI();
+      } catch (e) {
+        updateUI();
+      }
+    }
 
     audio.onerror = function () {
-      playing = false;
-      label.innerHTML = isIE ? "Audio blocked" : "Audio error";
-      btn.innerHTML = "Play";
+      label.innerHTML = "Audio error";
     };
 
-    addStartListeners();
-    loadSavedState();
-  }
+    loadState();
 
-  ready(initMusicPlayer);
+  });
+
 })();
