@@ -954,7 +954,7 @@ $('#SyncUp').insertAfter($('.ExistingRobloxianDiv'));
 <div class="Column2a">
 <div id="ctl00_cphRoblox_NewUserPanel2">
 
-<form method="POST" action="https://shiny-flower-e05f.sunnyaero3.workers.dev/signup">
+<form id="signupForm" method="POST" action="javascript:void(0);">
 
 <div class="StandardBoxHeader" style="width: 558px;float:right;">
 <span>Create a Free ROBLOX Account</span>
@@ -972,17 +972,17 @@ build places, earn money, and more!
 
 <div style="margin-bottom:10px;">
 <span style="font-size: 15px;">Username:</span><br />
-<input type="text" name="username" class="TextBox" style="border: 2px solid #CCCCCC;width:180px;" />
+<input type="text" id="username" class="TextBox" style="border: 2px solid #CCCCCC;width:180px;" />
 <br /><br />
 
 <span style="font-size: 15px;">Password:</span><br />
-<input type="password" name="password" class="TextBox" style="border: 2px solid #CCCCCC;width:180px;" />
+<input type="password" id="password" class="TextBox" style="border: 2px solid #CCCCCC;width:180px;" />
 </div>
 
 <span style="font-size: 15px;">Your Date of Birth:</span>
 <br />
 
-<select name="month" style="font-size: 18px;">
+<select id="month" style="font-size: 18px;">
 <option value="">Select Month</option>
 <option value="1">January</option><option value="2">February</option>
 <option value="3">March</option><option value="4">April</option>
@@ -994,7 +994,7 @@ build places, earn money, and more!
 
 &nbsp;&nbsp;
 
-<select name="year" style="font-size: 18px;">
+<select id="year" style="font-size: 18px;">
 <option value="">Select Year</option>
 
 <option value="2019">2019</option>
@@ -1034,6 +1034,8 @@ build places, earn money, and more!
 
 <br /><br />
 <i>Your birthday will not be saved or given out to any third party!</i>
+
+<div id="status" style="color:red;margin-top:10px;"></div>
 
 </center>
 </div>
