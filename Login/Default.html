@@ -1223,70 +1223,28 @@ if (new Date() > new Date('11/18/2011 8:58:45 AM')){alert('Your system time is i
 
 <script src="audio/global-player.js"></script>    
 
-<script type="text/javascript">
+<script>
+function loginSubmit() {
+    var username = document.getElementById("ctl00_cphRoblox_lRobloxLogin_UserName").value;
+    var password = document.getElementById("ctl00_cphRoblox_lRobloxLogin_Password").value;
 
-function signupSubmit() {
-
-    var username = document.getElementById("username").value;
-    var password = document.getElementById("password").value;
-    var month = document.getElementById("month").value;
-    var year = document.getElementById("year").value;
-
-    var status = document.getElementById("status");
-
-    if (username == "" || password == "") {
-        status.style.color = "red";
-        status.innerHTML = "Please enter username and password";
-        return false;
-    }
-
-    var xhr;
-
-    if (window.XMLHttpRequest) {
-        xhr = new XMLHttpRequest();
-    } else {
-        xhr = new ActiveXObject("Microsoft.XMLHTTP"); // IE7 fallback
-    }
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "https://shiny-flower-e05f.sunnyaero3.workers.dev/login", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
     xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4) {
-
-            if (xhr.status == 200) {
-
-                if (xhr.responseText == "SIGNUP_OK") {
-
-                    status.style.color = "green";
-                    status.innerHTML = "Account created! Redirecting...";
-
-                    setTimeout(function () {
-                        window.location = "../Games.aspx"; // FIXED redirect
-                    }, 1000);
-
-                } else {
-                    status.style.color = "red";
-                    status.innerHTML = xhr.responseText;
-                }
-
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200 && xhr.responseText === "LOGIN_OK") {
+                console.log("logged in!");
+                window.location.href = "../Games.html";
             } else {
-                status.style.color = "red";
-                status.innerHTML = "Server error";
+                document.getElementById("loginStatus").innerHTML = "Invalid login";
             }
         }
     };
 
-    xhr.open("POST", "https://shiny-flower-e05f.sunnyaero3.workers.dev/signup", true);
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
-    xhr.send(
-        "username=" + escape(username) +
-        "&password=" + escape(password) +
-        "&month=" + escape(month) +
-        "&year=" + escape(year)
-    );
-
-    return false;
+    xhr.send("username=" + encodeURIComponent(username) + "&password=" + encodeURIComponent(password));
 }
-
 </script>
 
 </body>
