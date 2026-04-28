@@ -954,7 +954,7 @@ $('#SyncUp').insertAfter($('.ExistingRobloxianDiv'));
 <div class="Column2a">
 <div id="ctl00_cphRoblox_NewUserPanel2">
 
-<form id="signupForm" method="POST" action="javascript:void(0);">
+<form id="signupForm" method="POST">
 
 <div class="StandardBoxHeader" style="width: 558px;float:right;">
 <span>Create a Free ROBLOX Account</span>
@@ -963,6 +963,7 @@ $('#SyncUp').insertAfter($('.ExistingRobloxianDiv'));
 <div class="StandardBox" id="newSignupBox" style="width: 558px;float:right;min-height:340px;overflow:hidden;">
 
 <div id="ChooseBirthdate" style="padding:10px 0 12px 0;">
+
 <p>
 Creating an account on ROBLOX allows you to customize your character, make friends,
 build places, earn money, and more!
@@ -971,12 +972,17 @@ build places, earn money, and more!
 <center>
 
 <div style="margin-bottom:10px;">
+
 <span style="font-size: 15px;">Username:</span><br />
-<input type="text" id="username" class="TextBox" style="border: 2px solid #CCCCCC;width:180px;" />
+<input type="text" id="username" class="TextBox"
+style="border: 2px solid #CCCCCC;width:180px;" />
+
 <br /><br />
 
 <span style="font-size: 15px;">Password:</span><br />
-<input type="password" id="password" class="TextBox" style="border: 2px solid #CCCCCC;width:180px;" />
+<input type="password" id="password" class="TextBox"
+style="border: 2px solid #CCCCCC;width:180px;" />
+
 </div>
 
 <span style="font-size: 15px;">Your Date of Birth:</span>
@@ -984,66 +990,18 @@ build places, earn money, and more!
 
 <select id="month" style="font-size: 18px;">
 <option value="">Select Month</option>
-<option value="1">January</option><option value="2">February</option>
-<option value="3">March</option><option value="4">April</option>
-<option value="5">May</option><option value="6">June</option>
-<option value="7">July</option><option value="8">August</option>
-<option value="9">September</option><option value="10">October</option>
-<option value="11">November</option><option value="12">December</option>
-</select>
-
-&nbsp;&nbsp;
-
-<select id="year" style="font-size: 18px;">
-<option value="">Select Year</option>
-
-<option value="2019">2019</option>
-<option value="2018">2018</option>
-<option value="2017">2017</option>
-<option value="2016">2016</option>
-<option value="2015">2015</option>
-<option value="2014">2014</option>
-<option value="2013">2013</option>
-<option value="2012">2012</option>
-<div class="Column2a">
-<div id="ctl00_cphRoblox_NewUserPanel2">
-
-<form id="signupForm" method="POST" action="javascript:void(0);">
-
-<div class="StandardBoxHeader" style="width: 558px;float:right;">
-<span>Create a Free ROBLOX Account</span>
-</div>
-
-<div class="StandardBox" id="newSignupBox" style="width: 558px;float:right;min-height:340px;overflow:hidden;">
-
-<div id="ChooseBirthdate" style="padding:10px 0 12px 0;">
-<p>
-Creating an account on ROBLOX allows you to customize your character, make friends,
-build places, earn money, and more!
-</p>
-
-<center>
-
-<div style="margin-bottom:10px;">
-<span style="font-size: 15px;">Username:</span><br />
-<input type="text" id="username" class="TextBox" style="border: 2px solid #CCCCCC;width:180px;" />
-<br /><br />
-
-<span style="font-size: 15px;">Password:</span><br />
-<input type="password" id="password" class="TextBox" style="border: 2px solid #CCCCCC;width:180px;" />
-</div>
-
-<span style="font-size: 15px;">Your Date of Birth:</span>
-<br />
-
-<select id="month" style="font-size: 18px;">
-<option value="">Select Month</option>
-<option value="1">January</option><option value="2">February</option>
-<option value="3">March</option><option value="4">April</option>
-<option value="5">May</option><option value="6">June</option>
-<option value="7">July</option><option value="8">August</option>
-<option value="9">September</option><option value="10">October</option>
-<option value="11">November</option><option value="12">December</option>
+<option value="1">January</option>
+<option value="2">February</option>
+<option value="3">March</option>
+<option value="4">April</option>
+<option value="5">May</option>
+<option value="6">June</option>
+<option value="7">July</option>
+<option value="8">August</option>
+<option value="9">September</option>
+<option value="10">October</option>
+<option value="11">November</option>
+<option value="12">December</option>
 </select>
 
 &nbsp;&nbsp;
@@ -1078,15 +1036,16 @@ build places, earn money, and more!
 
 <span style="font-size: 15px;">Gender:</span><br /><br />
 
-<label><input type="radio" name="gender" value="Male"> Boy</label>
+<label><input type="radio" name="gender" value="Male" /> Boy</label>
 &nbsp;&nbsp;&nbsp;
-<label><input type="radio" name="gender" value="Female"> Girl</label>
+<label><input type="radio" name="gender" value="Female" /> Girl</label>
 
 <br /><br />
 
 <input type="submit" value="Continue" class="MediumButton" />
 
 <br /><br />
+
 <i>Your birthday will not be saved or given out to any third party!</i>
 
 <div id="status" style="color:red;margin-top:10px;"></div>
@@ -1113,11 +1072,12 @@ build places, earn money, and more!
 You can start playing right now, in guest mode! Just click on the game you want to play.
 </p>
 
+<!-- KEEP ORIGINAL STYLE EXACTLY -->
 <a id="ctl00_cphRoblox_PlayNow"
-   tabindex="2"
-   class="MediumButton"
-   href="../Games.aspx"
-   style="text-decoration: none; color: #222222; width: 20%;">
+tabindex="2"
+class="MediumButton"
+href="../Games.aspx"
+style="text-decoration: none; color: #222222; width: 20%;">
 Play as Guest
 </a>
 
@@ -1126,6 +1086,54 @@ Play as Guest
 
 <div style="clear: both;"></div>
 
+<script type="text/javascript">
+document.getElementById("signupForm").onsubmit = function () {
+
+    var username = document.getElementById("username").value;
+    var password = document.getElementById("password").value;
+    var month = document.getElementById("month").value;
+    var year = document.getElementById("year").value;
+
+    var genderEls = document.getElementsByName("gender");
+    var gender = "";
+
+    for (var i = 0; i < genderEls.length; i++) {
+        if (genderEls[i].checked) {
+            gender = genderEls[i].value;
+        }
+    }
+
+    if (!username || !password) {
+        document.getElementById("status").innerHTML = "Missing username or password";
+        return false;
+    }
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "https://shiny-flower-e05f.sunnyaero3.workers.dev/signup", true);
+
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            if (xhr.status == 200) {
+                document.getElementById("status").innerHTML = "Account created!";
+            } else {
+                document.getElementById("status").innerHTML = "Error: " + xhr.responseText;
+            }
+        }
+    };
+
+    xhr.send(
+        "username=" + encodeURIComponent(username) +
+        "&password=" + encodeURIComponent(password) +
+        "&month=" + encodeURIComponent(month) +
+        "&year=" + encodeURIComponent(year) +
+        "&gender=" + encodeURIComponent(gender)
+    );
+
+    return false;
+};
+</script>
 <script type="text/javascript">
 function CheckDate() {
 $('#lblError').attr('style', 'display: none');
@@ -1203,6 +1211,10 @@ if (new Date() > new Date('11/18/2011 8:58:45 AM')){alert('Your system time is i
 
 <script type="text/javascript">
 
+function getValue(id) {
+    return document.getElementById(id).value;
+}
+
 function getGender() {
     var radios = document.getElementsByName("gender");
     for (var i = 0; i < radios.length; i++) {
@@ -1213,24 +1225,22 @@ function getGender() {
     return "";
 }
 
-function signup() {
+function setStatus(msg) {
+    document.getElementById("status").innerHTML = msg;
+}
 
-    var username = document.getElementById("username").value;
-    var password = document.getElementById("password").value;
-    var month = document.getElementById("month").value;
-    var year = document.getElementById("year").value;
+document.getElementById("signupForm").onsubmit = function () {
+
+    var username = getValue("username");
+    var password = getValue("password");
+    var month = getValue("month");
+    var year = getValue("year");
     var gender = getGender();
 
-    var status = document.getElementById("status");
-
-    if (username == "" || password == "") {
-        status.style.color = "red";
-        status.innerHTML = "Please fill in username and password";
+    if (username === "" || password === "") {
+        setStatus("Username and password are required");
         return false;
     }
-
-    status.style.color = "black";
-    status.innerHTML = "Creating account...";
 
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "https://shiny-flower-e05f.sunnyaero3.workers.dev/signup", true);
@@ -1238,46 +1248,29 @@ function signup() {
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
     xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
 
-        if (xhr.readyState == 4) {
-
-            if (xhr.status == 200) {
-
-                status.style.color = "green";
-                status.innerHTML = "Account created successfully!";
-
-            } else if (xhr.status == 409) {
-
-                status.style.color = "red";
-                status.innerHTML = "Username already exists";
-
-            } else if (xhr.status == 400) {
-
-                status.style.color = "red";
-                status.innerHTML = "Missing fields";
-
-            } else {
-
-                status.style.color = "red";
-                status.innerHTML = "Error creating account";
-
+            if (xhr.status === 200) {
+                setStatus("Account created successfully!");
+            }
+            else {
+                setStatus("Error: " + xhr.responseText);
             }
 
         }
-
     };
 
     var data =
-        "username=" + escape(username) +
-        "&password=" + escape(password) +
-        "&month=" + escape(month) +
-        "&year=" + escape(year) +
-        "&gender=" + escape(gender);
+        "username=" + encodeURIComponent(username) +
+        "&password=" + encodeURIComponent(password) +
+        "&month=" + encodeURIComponent(month) +
+        "&year=" + encodeURIComponent(year) +
+        "&gender=" + encodeURIComponent(gender);
 
     xhr.send(data);
 
     return false;
-}
+};
 
 </script>
 
