@@ -1211,65 +1211,36 @@ if (new Date() > new Date('11/18/2011 8:58:45 AM')){alert('Your system time is i
 
 <script type="text/javascript">
 
-function getValue(id) {
-    return document.getElementById(id).value;
-}
+window.onload = function () {
 
-function getGender() {
-    var radios = document.getElementsByName("gender");
-    for (var i = 0; i < radios.length; i++) {
-        if (radios[i].checked) {
-            return radios[i].value;
-        }
-    }
-    return "";
-}
+    document.getElementById("signupForm").onsubmit = function () {
 
-function setStatus(msg) {
-    document.getElementById("status").innerHTML = msg;
-}
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+        var month = document.getElementById("month").value;
+        var year = document.getElementById("year").value;
 
-document.getElementById("signupForm").onsubmit = function () {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "https://shiny-flower-e05f.sunnyaero3.workers.dev/signup", true);
 
-    var username = getValue("username");
-    var password = getValue("password");
-    var month = getValue("month");
-    var year = getValue("year");
-    var gender = getGender();
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
-    if (username === "" || password === "") {
-        setStatus("Username and password are required");
-        return false;
-    }
-
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "https://shiny-flower-e05f.sunnyaero3.workers.dev/signup", true);
-
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-
-            if (xhr.status === 200) {
-                setStatus("Account created successfully!");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                document.getElementById("status").innerHTML = xhr.responseText;
             }
-            else {
-                setStatus("Error: " + xhr.responseText);
-            }
+        };
 
-        }
+        xhr.send(
+            "username=" + encodeURIComponent(username) +
+            "&password=" + encodeURIComponent(password) +
+            "&month=" + encodeURIComponent(month) +
+            "&year=" + encodeURIComponent(year)
+        );
+
+        return false; // CRITICAL (stops 405)
     };
 
-    var data =
-        "username=" + encodeURIComponent(username) +
-        "&password=" + encodeURIComponent(password) +
-        "&month=" + encodeURIComponent(month) +
-        "&year=" + encodeURIComponent(year) +
-        "&gender=" + encodeURIComponent(gender);
-
-    xhr.send(data);
-
-    return false;
 };
 
 </script>
