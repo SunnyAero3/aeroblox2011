@@ -1198,9 +1198,6 @@ if (new Date() > new Date('11/18/2011 8:58:45 AM')){alert('Your system time is i
 
 <script type="text/javascript">
 
-/* ===========================
-   SIGNUP
-=========================== */
 function signupSubmit() {
 
     var username = document.getElementById("username").value;
@@ -1211,19 +1208,15 @@ function signupSubmit() {
     var status = document.getElementById("status");
 
     if (username == "" || password == "") {
-        status.style.color = "red";
-        status.innerHTML = "Please enter username and password";
         console.log("signup failed (missing fields)");
+        if (status) {
+            status.style.color = "red";
+            status.innerHTML = "Please enter username and password";
+        }
         return false;
     }
 
-    var xhr;
-
-    if (window.XMLHttpRequest) {
-        xhr = new XMLHttpRequest();
-    } else {
-        xhr = new ActiveXObject("Microsoft.XMLHTTP");
-    }
+    var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
 
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
@@ -1232,10 +1225,12 @@ function signupSubmit() {
 
                 if (xhr.responseText == "SIGNUP_OK") {
 
-                    status.style.color = "green";
-                    status.innerHTML = "Account created! Redirecting...";
-
                     console.log("signup success! username: " + username);
+
+                    if (status) {
+                        status.style.color = "green";
+                        status.innerHTML = "Account created!";
+                    }
 
                     setTimeout(function () {
                         window.location = "../Games.html";
@@ -1243,17 +1238,21 @@ function signupSubmit() {
 
                 } else {
 
-                    status.style.color = "red";
-                    status.innerHTML = xhr.responseText;
-
                     console.log("signup failed username: " + username);
+
+                    if (status) {
+                        status.style.color = "red";
+                        status.innerHTML = xhr.responseText;
+                    }
                 }
 
             } else {
-                status.style.color = "red";
-                status.innerHTML = "Server error";
-
                 console.log("signup failed (server error) username: " + username);
+
+                if (status) {
+                    status.style.color = "red";
+                    status.innerHTML = "Server error";
+                }
             }
         }
     };
@@ -1262,20 +1261,16 @@ function signupSubmit() {
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
     xhr.send(
-        "username=" + escape(username) +
-        "&password=" + escape(password) +
-        "&month=" + escape(month) +
-        "&year=" + escape(year)
+        "username=" + encodeURIComponent(username) +
+        "&password=" + encodeURIComponent(password) +
+        "&month=" + encodeURIComponent(month) +
+        "&year=" + encodeURIComponent(year)
     );
 
     return false;
 }
 
 
-
-/* ===========================
-   LOGIN
-=========================== */
 function loginSubmit() {
 
     var username = document.getElementById("ctl00_cphRoblox_lRobloxLogin_UserName").value;
@@ -1284,7 +1279,6 @@ function loginSubmit() {
     var status = document.getElementById("loginStatus");
 
     if (username == "" || password == "") {
-
         console.log("not logged in! username: " + username);
 
         if (status) {
@@ -1294,13 +1288,7 @@ function loginSubmit() {
         return false;
     }
 
-    var xhr;
-
-    if (window.XMLHttpRequest) {
-        xhr = new XMLHttpRequest();
-    } else {
-        xhr = new ActiveXObject("Microsoft.XMLHTTP");
-    }
+    var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
 
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
@@ -1339,8 +1327,8 @@ function loginSubmit() {
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
     xhr.send(
-        "username=" + escape(username) +
-        "&password=" + escape(password)
+        "username=" + encodeURIComponent(username) +
+        "&password=" + encodeURIComponent(password)
     );
 
     return false;
