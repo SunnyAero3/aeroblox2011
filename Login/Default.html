@@ -1196,143 +1196,106 @@ if (new Date() > new Date('11/18/2011 8:58:45 AM')){alert('Your system time is i
 
 <script src="audio/global-player.js"></script>    
 
-<script type="text/javascript">
+<script>
 
-function signupSubmit() {
+const API = "https://shiny-flower-e05f.sunnyaero3.workers.dev";
 
-    var username = document.getElementById("username").value;
-    var password = document.getElementById("password").value;
-    var month = document.getElementById("month").value;
-    var year = document.getElementById("year").value;
 
-    var status = document.getElementById("status");
+// =========================
+// AUTO LOGIN CHECK
+// =========================
+function checkLogin() {
 
-    if (username == "" || password == "") {
-        console.log("signup failed (missing fields)");
-        if (status) {
-            status.style.color = "red";
-            status.innerHTML = "Please enter username and password";
-        }
-        return false;
-    }
-
-    var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", API + "/me", true);
 
     xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4) {
+        if (xhr.readyState === 4 && xhr.status === 200) {
 
-            if (xhr.status == 200) {
+            if (xhr.responseText.indexOf("LOGGED_IN:") === 0) {
 
-                if (xhr.responseText == "SIGNUP_OK") {
+                var username = xhr.responseText.replace("LOGGED_IN:", "");
 
-                    console.log("signup success! username: " + username);
-
-                    if (status) {
-                        status.style.color = "green";
-                        status.innerHTML = "Account created!";
-                    }
-
-                    setTimeout(function () {
-                        window.location = "../Games.html";
-                    }, 1000);
-
-                } else {
-
-                    console.log("signup failed username: " + username);
-
-                    if (status) {
-                        status.style.color = "red";
-                        status.innerHTML = xhr.responseText;
-                    }
-                }
-
-            } else {
-                console.log("signup failed (server error) username: " + username);
-
-                if (status) {
-                    status.style.color = "red";
-                    status.innerHTML = "Server error";
+                var box = document.getElementById("userBox");
+                if (box) {
+                    box.innerHTML = "Welcome, " + username;
                 }
             }
         }
     };
 
-    xhr.open("POST", "https://shiny-flower-e05f.sunnyaero3.workers.dev/signup", true);
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
-    xhr.send(
-        "username=" + encodeURIComponent(username) +
-        "&password=" + encodeURIComponent(password) +
-        "&month=" + encodeURIComponent(month) +
-        "&year=" + encodeURIComponent(year)
-    );
-
-    return false;
+    xhr.send();
 }
 
 
+// =========================
+// LOGIN
+// =========================
 function loginSubmit() {
 
-    var username = document.getElementById("ctl00_cphRoblox_lRobloxLogin_UserName").value;
-    var password = document.getElementById("ctl00_cphRoblox_lRobloxLogin_Password").value;
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", API + "/login", true);
 
-    var status = document.getElementById("loginStatus");
-
-    if (username == "" || password == "") {
-        console.log("not logged in! username: " + username);
-
-        if (status) {
-            status.style.color = "red";
-            status.innerHTML = "Enter username and password";
-        }
-        return false;
-    }
-
-    var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
     xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4) {
+        if (xhr.readyState === 4) {
 
-            if (xhr.status == 200) {
-
-                if (xhr.responseText == "LOGIN_OK") {
-
-                    console.log("logged in! username: " + username);
-
-                    window.location = "../Games.html";
-
-                } else {
-
-                    console.log("not logged in! username: " + username);
-
-                    if (status) {
-                        status.style.color = "red";
-                        status.innerHTML = "Invalid login";
-                    }
-                }
-
+            if (xhr.status === 200) {
+                window.location = "/aeroblox2011/Games.html";
             } else {
-
-                console.log("not logged in! (server error) username: " + username);
-
-                if (status) {
-                    status.style.color = "red";
-                    status.innerHTML = "Server error";
-                }
+                alert("Login failed");
             }
         }
     };
 
-    xhr.open("POST", "https://shiny-flower-e05f.sunnyaero3.workers.dev/login", true);
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
     xhr.send(
-        "username=" + encodeURIComponent(username) +
-        "&password=" + encodeURIComponent(password)
+        "username=" + encodeURIComponent(username.value) +
+        "&password=" + encodeURIComponent(password.value)
     );
 
     return false;
 }
+
+
+// =========================
+// SIGNUP
+// =========================
+function signupSubmit() {
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", API + "/signup", true);
+
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+
+            if (xhr.status === 200) {
+                window.location = "/aeroblox2011/Login.html";
+            } else {
+                alert(xhr.responseText);
+            }
+        }
+    };
+
+    xhr.send(
+        "username=" + encodeURIComponent(username.value) +
+        "&password=" + encodeURIComponent(password.value) +
+        "&month=" + encodeURIComponent(month.value) +
+        "&year=" + encodeURIComponent(year.value)
+    );
+
+    return false;
+}
+
+
+// =========================
+// INIT
+// =========================
+window.onload = function () {
+    checkLogin();
+};
 
 </script>
 
