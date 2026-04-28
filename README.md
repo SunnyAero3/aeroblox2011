@@ -1,6 +1,6 @@
 https://sunnyaero3.github.io/aeroblox2011/
 
-right now theres no backend so here are the other links of htmls that will be chacnged later when backend comes
+right now theres no backend so here are the other links of htmls that will be chacnged later when backend comes(right now backend exists i am slowly constructing it)
 
 1: https://sunnyaero3.github.io/aeroblox2011/My/LinkInventory.html
 
@@ -13,3 +13,5 @@ robloxopolis for the logged in pages ( i used Anonymous1 logged in files for thi
 unlike other roblox revivals this revival is open-source so anyone can download the github respository and make an identical revival in case of shutdown.
 
 This uses CloudFlare Workers which is a free backend.
+
+ Unfortunately, this revical will not support Internet Explorer because if it does, i have to sacrifice safety and i dont want to end up having some ip leak like Goodblox did. if youre on xp, vista or 7 you will have to download Supermium which is a modern browser that works with xp, vista and 7 and anything above.
