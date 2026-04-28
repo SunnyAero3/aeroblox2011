@@ -385,14 +385,17 @@ $(this).css("border-color", "#CCCCCC");
 </div>
 
 <div class="StandardBox" id="newLogin" style="height:137px;width:300px;">
+
 <div id="ctl00_cphRoblox_LOLOLOLOL">
 
 <div class="AspNet-Login">
 
+<form id="loginForm" method="POST" action="javascript:void(0);" onsubmit="loginSubmit(); return false;">
+
 <table style="margin:0px auto;">
 
 <tr>
-<td colspan="2" style="color:#FF0000" id="loginStatus"></td>
+<td colspan="2" id="loginStatus" style="color:#FF0000"></td>
 </tr>
 
 <tr>
@@ -400,12 +403,7 @@ $(this).css("border-color", "#CCCCCC");
 Username:
 </td>
 <td>
-<input
-type="text"
-id="username"
-name="username"
-class="TextBox"
-style="border:2px solid #CCCCCC;width:130px;" />
+<input type="text" id="ctl00_cphRoblox_lRobloxLogin_UserName" name="username" class="TextBox" style="border:2px solid #CCCCCC;width:130px;" />
 </td>
 </tr>
 
@@ -417,20 +415,11 @@ Password:
 <td style="position:relative;display:block;">
 
 <div style="float:left;width:215px;">
-<input
-type="password"
-id="password"
-name="password"
-class="TextBox"
-style="border:2px solid #CCCCCC;width:130px;" />
+<input type="password" id="ctl00_cphRoblox_lRobloxLogin_Password" name="password" class="TextBox" style="border:2px solid #CCCCCC;width:130px;" />
 </div>
 
 <div style="position:absolute;top:2px;left:150px;">
-<input
-type="button"
-value="Login"
-class="MediumButton"
-onclick="loginSubmit()" />
+<input type="button" value="Login" class="MediumButton" onclick="loginSubmit()" />
 </div>
 
 </td>
@@ -439,29 +428,13 @@ onclick="loginSubmit()" />
 <tr>
 <td colspan="2" align="center" style="padding-bottom:10px;">
 <div style="font-size:11px;">
-<a href="ResetPasswordRequest.html">Forgot your password?</a>
+<a href="ResetPasswordRequest.aspx">Forgot your password?</a>
 </div>
 </td>
 </tr>
 
 <tr>
-<td colspan="2"
-class="FacebookConnectTD"
-style="text-align:center;border-top:1px solid #CCC;padding:0;margin:0;">
-
-</td>
-</tr>
-
-</table>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-
+<td colspan="2" class="FacebookConnectTD" style="text-align:center;border-top:1px solid #CCC;padding:0;margin:0;">
 
 <script type="text/javascript">
 
