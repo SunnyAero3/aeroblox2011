@@ -8,6 +8,7 @@ function checkLogin() {
 
     var xhr = new XMLHttpRequest();
     xhr.open("GET", API + "/me", true);
+    xhr.withCredentials = true;
 
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
@@ -26,7 +27,7 @@ function checkLogin() {
 
 
 // =========================
-// SIGNUP (STRICT VALIDATION)
+// SIGNUP
 // =========================
 function signupSubmit() {
 
@@ -46,56 +47,24 @@ function signupSubmit() {
         }
     }
 
-    // =========================
-    // VALIDATION (UPGRADED)
-    // =========================
-    if (!usernameEl.value.trim()) {
-        if (status) status.innerHTML = "Username required";
-        return false;
-    }
-
-    if (!passwordEl.value.trim()) {
-        if (status) status.innerHTML = "Password required";
-        return false;
-    }
-
-    if (!monthEl.value) {
-        if (status) status.innerHTML = "Select birth month";
-        return false;
-    }
-
-    if (!yearEl.value) {
-        if (status) status.innerHTML = "Select birth year";
-        return false;
-    }
-
-    if (!gender) {
-        if (status) status.innerHTML = "Select gender";
+    if (!usernameEl.value.trim() || !passwordEl.value.trim() || !monthEl.value || !yearEl.value || !gender) {
+        if (status) status.innerHTML = "Please fill in all fields";
         return false;
     }
 
     var xhr = new XMLHttpRequest();
     xhr.open("POST", API + "/signup", true);
+    xhr.withCredentials = true;
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
 
             if (xhr.status === 200) {
-
-                if (status) {
-                    status.style.color = "green";
-                    status.innerHTML = "Account created!";
-                }
-
+                if (status) status.innerHTML = "Account created!";
                 window.location = "/aeroblox2011/Login.html";
-
             } else {
-
-                if (status) {
-                    status.style.color = "red";
-                    status.innerHTML = xhr.responseText || "Signup failed";
-                }
+                if (status) status.innerHTML = xhr.responseText;
             }
         }
     };
@@ -113,7 +82,7 @@ function signupSubmit() {
 
 
 // =========================
-// LOGIN (FIXED + SAFE)
+// LOGIN (COOKIE ENABLED)
 // =========================
 function loginSubmit() {
 
@@ -128,17 +97,15 @@ function loginSubmit() {
 
     var xhr = new XMLHttpRequest();
     xhr.open("POST", API + "/login", true);
+    xhr.withCredentials = true;
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
 
             if (xhr.status === 200) {
-
                 window.location = "/aeroblox2011/Games.html";
-
             } else {
-
                 if (status) status.innerHTML = "Invalid login";
             }
         }
@@ -154,7 +121,7 @@ function loginSubmit() {
 
 
 // =========================
-// INIT (RUN ON EVERY PAGE)
+// INIT
 // =========================
 window.onload = function () {
     checkLogin();
