@@ -12,6 +12,6 @@ robloxopolis for the logged in pages ( i used Anonymous1 logged in files for thi
 
 unlike other roblox revivals this revival is open-source so anyone can download the github respository and make an identical revival in case of shutdown.
 
-This uses CloudFlare Workers which is a free backend.
+This uses Supabase which is a free backend, but right now no backend
 
  Unfortunately, this revical will not support Internet Explorer because if it does, i have to sacrifice safety and i dont want to end up having some ip leak like Goodblox did. if youre on xp, vista or 7 you will have to download Supermium which is a modern browser that works with xp, vista and 7 and anything above.
